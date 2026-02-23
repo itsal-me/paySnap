@@ -208,7 +208,7 @@ export function AddSubscriptionModal({
                                     autoFocus
                                 />
 
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-2 gap-3 items-end">
                                     <Input
                                         label="Amount"
                                         type="number"
@@ -231,7 +231,7 @@ export function AddSubscriptionModal({
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-2 gap-3 items-end">
                                     <Select
                                         label="Billing cycle"
                                         value={form.billing_cycle}

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
+import { ChevronDown } from "lucide-react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -13,11 +14,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
 
         return (
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
                 {label && (
                     <label
                         htmlFor={inputId}
-                        className="text-xs font-medium text-foreground"
+                        className="text-xs font-medium text-muted-foreground"
                     >
                         {label}
                     </label>
@@ -41,9 +42,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                         {...props}
                     />
                 </div>
-                {error && <p className="text-xs text-danger">{error}</p>}
+                {error && <p className="text-xs text-danger mt-0.5">{error}</p>}
                 {hint && !error && (
-                    <p className="text-xs text-muted-foreground">{hint}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>
                 )}
             </div>
         );
@@ -63,11 +64,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
 
         return (
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
                 {label && (
                     <label
                         htmlFor={inputId}
-                        className="text-xs font-medium text-foreground"
+                        className="text-xs font-medium text-muted-foreground"
                     >
                         {label}
                     </label>
@@ -83,9 +84,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                     )}
                     {...props}
                 />
-                {error && <p className="text-xs text-danger">{error}</p>}
+                {error && <p className="text-xs text-danger mt-0.5">{error}</p>}
                 {hint && !error && (
-                    <p className="text-xs text-muted-foreground">{hint}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>
                 )}
             </div>
         );
@@ -106,35 +107,38 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
 
         return (
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
                 {label && (
                     <label
                         htmlFor={inputId}
-                        className="text-xs font-medium text-foreground"
+                        className="text-xs font-medium text-muted-foreground"
                     >
                         {label}
                     </label>
                 )}
-                <select
-                    ref={ref}
-                    id={inputId}
-                    className={cn(
-                        "input-base appearance-none cursor-pointer",
-                        error &&
-                            "border-danger/50 focus:ring-danger/30 focus:border-danger/50",
-                        className,
-                    )}
-                    {...props}
-                >
-                    {options.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
-                {error && <p className="text-xs text-danger">{error}</p>}
+                <div className="relative">
+                    <select
+                        ref={ref}
+                        id={inputId}
+                        className={cn(
+                            "input-base appearance-none cursor-pointer pr-8",
+                            error &&
+                                "border-danger/50 focus:ring-danger/30 focus:border-danger/50",
+                            className,
+                        )}
+                        {...props}
+                    >
+                        {options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
+                    <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
+                </div>
+                {error && <p className="text-xs text-danger mt-0.5">{error}</p>}
                 {hint && !error && (
-                    <p className="text-xs text-muted-foreground">{hint}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>
                 )}
             </div>
         );

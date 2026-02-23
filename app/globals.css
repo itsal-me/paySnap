@@ -125,9 +125,11 @@
 
     .input-base {
         @apply w-full px-3 py-2 text-sm bg-surface border border-border rounded-lg 
+           text-foreground
            placeholder:text-muted-foreground/60 
            focus:outline-none focus:ring-1 focus:ring-accent/50 focus:border-accent/50 
            transition-colors duration-150;
+        color-scheme: dark;
     }
 
     .sidebar-link {
