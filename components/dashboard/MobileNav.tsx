@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, CreditCard, BarChart3, Settings, LogOut } from "lucide-react";
+import {
+    LayoutDashboard,
+    CreditCard,
+    BarChart3,
+    Settings,
+    LogOut,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 
@@ -74,7 +80,9 @@ export function MobileNav() {
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center">
                         <LogOut className="w-[18px] h-[18px]" />
                     </div>
-                    <span className="text-[10px] font-medium leading-none">Sign out</span>
+                    <span className="text-[10px] font-medium leading-none">
+                        Sign out
+                    </span>
                 </button>
             </div>
         </nav>

@@ -9,9 +9,9 @@ const links = {
 
 export function Footer() {
     return (
-        <footer className="border-t border-border py-16 px-4">
+        <footer className="border-t border-border py-10 sm:py-16 px-4">
             <div className="max-w-6xl mx-auto">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-12">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8 sm:mb-12">
                     {/* Brand */}
                     <div className="col-span-2 sm:col-span-1">
                         <Link href="/" className="flex items-center gap-2 mb-4">

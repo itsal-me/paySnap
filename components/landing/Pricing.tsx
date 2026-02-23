@@ -52,7 +52,7 @@ const plans = [
 
 export function Pricing() {
     return (
-        <section id="pricing" className="py-28 px-4 border-t border-border">
+        <section id="pricing" className="py-16 sm:py-28 px-4 border-t border-border">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <motion.div
@@ -60,7 +60,7 @@ export function Pricing() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10 sm:mb-16"
                 >
                     <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-4">
                         Pricing

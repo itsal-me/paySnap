@@ -34,7 +34,7 @@ export function HowItWorks() {
     return (
         <section
             id="how-it-works"
-            className="py-28 px-4 border-t border-border"
+            className="py-16 sm:py-28 px-4 border-t border-border"
         >
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
@@ -43,7 +43,7 @@ export function HowItWorks() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-20"
+                    className="text-center mb-12 sm:mb-20"
                 >
                     <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-4">
                         How it works
@@ -62,7 +62,7 @@ export function HowItWorks() {
                     {/* Connecting line */}
                     <div className="hidden md:block absolute top-8 left-[calc(16.67%+28px)] right-[calc(16.67%+28px)] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8">
                         {steps.map((step, i) => {
                             const Icon = step.icon;
                             return (

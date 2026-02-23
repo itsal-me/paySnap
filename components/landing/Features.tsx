@@ -95,7 +95,7 @@ const cardVariants = {
 
 export function Features() {
     return (
-        <section id="features" className="py-28 px-4">
+        <section id="features" className="py-16 sm:py-28 px-4">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <motion.div
@@ -103,7 +103,7 @@ export function Features() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10 sm:mb-16"
                 >
                     <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-4">
                         Features

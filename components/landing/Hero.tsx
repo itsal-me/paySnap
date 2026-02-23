@@ -7,6 +7,7 @@ import {
     CreditCard,
     TrendingUp,
     Bell,
+    Zap,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -54,14 +55,14 @@ function DashboardPreview() {
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-t from-accent/10 via-transparent to-transparent rounded-2xl blur-2xl" />
 
-            {/* Browser chrome */}
-            <div className="relative rounded-xl border border-border bg-surface shadow-2xl overflow-hidden">
+            {/* ── Desktop: Browser chrome (sm+) ── */}
+            <div className="hidden sm:block relative rounded-xl border border-border bg-surface shadow-2xl overflow-hidden">
                 {/* Browser bar */}
                 <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border bg-surface-elevated">
                     <div className="w-2.5 h-2.5 rounded-full bg-danger/60" />
                     <div className="w-2.5 h-2.5 rounded-full bg-warning/60" />
                     <div className="w-2.5 h-2.5 rounded-full bg-success/60" />
-                    <div className="ml-3 flex-1 bg-muted rounded-md px-3 py-1 text-xs text-muted-foreground">
+                    <div className="ml-3 flex-1 bg-muted rounded-md px-3 py-1 text-xs text-muted-foreground truncate">
                         app.paysnap.com/dashboard
                     </div>
                 </div>
@@ -69,7 +70,7 @@ function DashboardPreview() {
                 {/* Dashboard content */}
                 <div className="flex h-64 overflow-hidden">
                     {/* Sidebar */}
-                    <div className="w-44 border-r border-border bg-surface-elevated p-3 flex flex-col gap-1">
+                    <div className="w-44 border-r border-border bg-surface-elevated p-3 flex flex-col gap-1 shrink-0">
                         <div className="px-3 py-1.5 text-xs text-accent font-medium rounded-lg bg-accent-subtle flex items-center gap-2">
                             <div className="w-3 h-3 rounded-sm bg-accent/40" />
                             Dashboard
@@ -88,7 +89,7 @@ function DashboardPreview() {
                     </div>
 
                     {/* Main content */}
-                    <div className="flex-1 p-4 overflow-hidden">
+                    <div className="flex-1 p-4 overflow-hidden min-w-0">
                         {/* Stats row */}
                         <div className="grid grid-cols-3 gap-2 mb-4">
                             {[
@@ -100,10 +101,10 @@ function DashboardPreview() {
                                     key={stat.label}
                                     className="rounded-lg bg-muted p-2"
                                 >
-                                    <div className="text-xs text-muted-foreground mb-0.5">
+                                    <div className="text-[10px] text-muted-foreground mb-0.5 truncate">
                                         {stat.label}
                                     </div>
-                                    <div className="text-sm font-semibold">
+                                    <div className="text-sm font-semibold truncate">
                                         {stat.value}
                                     </div>
                                 </div>
@@ -117,27 +118,21 @@ function DashboardPreview() {
                                     key={sub.name}
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{
-                                        delay: 0.1 + i * 0.1,
-                                        duration: 0.3,
-                                    }}
+                                    transition={{ delay: 0.1 + i * 0.1, duration: 0.3 }}
                                     className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-1.5"
                                 >
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 min-w-0">
                                         <div
-                                            className="w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-bold text-white"
-                                            style={{
-                                                backgroundColor:
-                                                    sub.color + "88",
-                                            }}
+                                            className="w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-bold text-white shrink-0"
+                                            style={{ backgroundColor: sub.color + "88" }}
                                         >
                                             {sub.name[0]}
                                         </div>
-                                        <span className="text-xs font-medium">
+                                        <span className="text-xs font-medium truncate">
                                             {sub.name}
                                         </span>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 shrink-0">
                                         <span
                                             className={`text-[10px] px-1.5 py-0.5 rounded-full ${
                                                 sub.status === "trial"
@@ -155,6 +150,74 @@ function DashboardPreview() {
                             ))}
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* ── Mobile: Phone app style (< sm) ── */}
+            <div className="sm:hidden relative rounded-2xl border border-border bg-surface shadow-2xl overflow-hidden">
+                {/* App header */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-surface-elevated">
+                    <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-md bg-accent flex items-center justify-center shrink-0">
+                            <Zap className="w-3 h-3 text-accent-foreground fill-current" />
+                        </div>
+                        <span className="text-xs font-semibold">Dashboard</span>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground">5 active</span>
+                </div>
+
+                {/* 2-col stats */}
+                <div className="grid grid-cols-2 gap-2 p-3">
+                    {[
+                        { label: "Monthly spend", value: "$123.45" },
+                        { label: "Active subs", value: "12" },
+                    ].map((stat) => (
+                        <div key={stat.label} className="rounded-xl bg-muted p-3">
+                            <div className="text-[10px] text-muted-foreground mb-1">{stat.label}</div>
+                            <div className="text-sm font-bold">{stat.value}</div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Subscription list */}
+                <div className="px-3 pb-4 space-y-1.5">
+                    <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        Upcoming renewals
+                    </p>
+                    {mockSubscriptions.slice(0, 4).map((sub, i) => (
+                        <motion.div
+                            key={sub.name}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.1 + i * 0.1, duration: 0.3 }}
+                            className="flex items-center justify-between rounded-xl bg-muted/50 px-3 py-2"
+                        >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                                <div
+                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold text-white shrink-0"
+                                    style={{ backgroundColor: sub.color + "88" }}
+                                >
+                                    {sub.name[0]}
+                                </div>
+                                <div className="min-w-0">
+                                    <div className="text-xs font-medium truncate">{sub.name}</div>
+                                    <div className="text-[10px] text-muted-foreground">in {sub.daysLeft}d</div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                                <span
+                                    className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                                        sub.status === "trial"
+                                            ? "bg-warning-subtle text-warning"
+                                            : "bg-success-subtle text-success"
+                                    }`}
+                                >
+                                    {sub.status}
+                                </span>
+                                <span className="text-xs font-semibold">{sub.amount}</span>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
         </div>
@@ -180,7 +243,7 @@ const itemVariants = {
 
 export function Hero() {
     return (
-        <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 px-4 overflow-hidden">
+        <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-10 sm:pb-16 px-4 overflow-hidden">
             {/* Background elements */}
             <div className="absolute inset-0 dot-grid opacity-40" />
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl pointer-events-none" />
@@ -205,7 +268,7 @@ export function Hero() {
                 {/* Headline */}
                 <motion.h1
                     variants={itemVariants}
-                    className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.05] text-balance mb-6"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] text-balance mb-5 sm:mb-6"
                 >
                     Every subscription,
                     <br />
@@ -225,7 +288,7 @@ export function Hero() {
                 {/* CTAs */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex flex-col sm:flex-row gap-3 mb-16"
+                    className="flex flex-col sm:flex-row gap-3 mb-8 sm:mb-16 w-full sm:w-auto"
                 >
                     <Link
                         href="/login"
@@ -245,20 +308,20 @@ export function Hero() {
                 {/* Social proof */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex items-center gap-6 mb-16 text-xs text-muted-foreground"
+                    className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mb-8 sm:mb-16 text-xs text-muted-foreground"
                 >
                     <div className="flex items-center gap-1.5">
-                        <CreditCard className="w-3.5 h-3.5" />
+                        <CreditCard className="w-3.5 h-3.5 shrink-0" />
                         <span>No credit card required</span>
                     </div>
-                    <div className="h-3 w-px bg-border" />
+                    <div className="hidden sm:block h-3 w-px bg-border" />
                     <div className="flex items-center gap-1.5">
-                        <Bell className="w-3.5 h-3.5" />
+                        <Bell className="w-3.5 h-3.5 shrink-0" />
                         <span>Renewal alerts</span>
                     </div>
-                    <div className="h-3 w-px bg-border" />
+                    <div className="hidden sm:block h-3 w-px bg-border" />
                     <div className="flex items-center gap-1.5">
-                        <TrendingUp className="w-3.5 h-3.5" />
+                        <TrendingUp className="w-3.5 h-3.5 shrink-0" />
                         <span>Spending insights</span>
                     </div>
                 </motion.div>
