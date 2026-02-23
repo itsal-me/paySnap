@@ -52,7 +52,10 @@ const plans = [
 
 export function Pricing() {
     return (
-        <section id="pricing" className="py-16 sm:py-28 px-4 border-t border-border">
+        <section
+            id="pricing"
+            className="py-16 sm:py-28 px-4 border-t border-border"
+        >
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <motion.div

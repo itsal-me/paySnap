@@ -72,7 +72,7 @@ export async function POST() {
 
     const existingThreadIdSet = new Set(existingThreads?.map((s) => s.email_thread_id) || [])
 
-    for (const msg of messages.slice(0, 50)) {
+    for (const msg of messages.slice(0, 100)) {
       if (processedThreadIds.has(msg.threadId) || existingThreadIdSet.has(msg.threadId)) {
         continue
       }

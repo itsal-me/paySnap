@@ -118,13 +118,19 @@ function DashboardPreview() {
                                     key={sub.name}
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.1 + i * 0.1, duration: 0.3 }}
+                                    transition={{
+                                        delay: 0.1 + i * 0.1,
+                                        duration: 0.3,
+                                    }}
                                     className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-1.5"
                                 >
                                     <div className="flex items-center gap-2 min-w-0">
                                         <div
                                             className="w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-bold text-white shrink-0"
-                                            style={{ backgroundColor: sub.color + "88" }}
+                                            style={{
+                                                backgroundColor:
+                                                    sub.color + "88",
+                                            }}
                                         >
                                             {sub.name[0]}
                                         </div>
@@ -163,7 +169,9 @@ function DashboardPreview() {
                         </div>
                         <span className="text-xs font-semibold">Dashboard</span>
                     </div>
-                    <span className="text-[10px] text-muted-foreground">5 active</span>
+                    <span className="text-[10px] text-muted-foreground">
+                        5 active
+                    </span>
                 </div>
 
                 {/* 2-col stats */}
@@ -172,9 +180,16 @@ function DashboardPreview() {
                         { label: "Monthly spend", value: "$123.45" },
                         { label: "Active subs", value: "12" },
                     ].map((stat) => (
-                        <div key={stat.label} className="rounded-xl bg-muted p-3">
-                            <div className="text-[10px] text-muted-foreground mb-1">{stat.label}</div>
-                            <div className="text-sm font-bold">{stat.value}</div>
+                        <div
+                            key={stat.label}
+                            className="rounded-xl bg-muted p-3"
+                        >
+                            <div className="text-[10px] text-muted-foreground mb-1">
+                                {stat.label}
+                            </div>
+                            <div className="text-sm font-bold">
+                                {stat.value}
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -195,13 +210,19 @@ function DashboardPreview() {
                             <div className="flex items-center gap-2.5 min-w-0">
                                 <div
                                     className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold text-white shrink-0"
-                                    style={{ backgroundColor: sub.color + "88" }}
+                                    style={{
+                                        backgroundColor: sub.color + "88",
+                                    }}
                                 >
                                     {sub.name[0]}
                                 </div>
                                 <div className="min-w-0">
-                                    <div className="text-xs font-medium truncate">{sub.name}</div>
-                                    <div className="text-[10px] text-muted-foreground">in {sub.daysLeft}d</div>
+                                    <div className="text-xs font-medium truncate">
+                                        {sub.name}
+                                    </div>
+                                    <div className="text-[10px] text-muted-foreground">
+                                        in {sub.daysLeft}d
+                                    </div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
@@ -214,7 +235,9 @@ function DashboardPreview() {
                                 >
                                     {sub.status}
                                 </span>
-                                <span className="text-xs font-semibold">{sub.amount}</span>
+                                <span className="text-xs font-semibold">
+                                    {sub.amount}
+                                </span>
                             </div>
                         </motion.div>
                     ))}
