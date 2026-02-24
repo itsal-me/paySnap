@@ -52,7 +52,7 @@ const statusVariant: Record<
 
 // ── Confidence badge ─────────────────────────────────────────────────────────────
 function ConfidenceBadge({ score }: { score: number }) {
-    const isHigh = score >= 90;
+    const isHigh = score >= 80;
     return (
         <span
             title={`Detection confidence: ${score}%`}
@@ -472,7 +472,7 @@ export function SubscriptionsList({
                         </span>
                     </div>
                     <p className="text-[11px] text-muted-foreground px-1">
-                        These were found in your Gmail with moderate confidence.
+                        These were found in your Gmail with 45–79% confidence.
                         Accept ones that are genuine, dismiss the rest.
                     </p>
                     <AnimatePresence>

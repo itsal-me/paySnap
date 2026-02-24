@@ -18,9 +18,9 @@
  * Never returns 100%.
  *
  * Suggestion thresholds:
- *   >= 90 → 'auto'   (insert as active immediately)
- *   60–89 → 'ask'    (insert as pending_review, surface for user review in UI)
- *   < 60  → 'ignore' (discard silently)
+ *   >= 80 → 'auto'   (insert as active immediately)
+ *   45–79 → 'ask'    (insert as pending_review, surface for user review in UI)
+ *   < 45  → 'ignore' (discard silently)
  */
 
 export type SignalCategory =
@@ -150,7 +150,7 @@ export function computeConfidenceScore(params: ConfidenceInput): ConfidenceResul
     .map((s) => s.label)
 
   const suggestion: ConfidenceSuggestion =
-    score >= 90 ? 'auto' : score >= 60 ? 'ask' : 'ignore'
+    score >= 80 ? 'auto' : score >= 45 ? 'ask' : 'ignore'
 
   return {
     score,
