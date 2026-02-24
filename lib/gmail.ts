@@ -176,10 +176,164 @@ export interface DetectedSubscription {
   amount: number
   currency: string
   billing_cycle: 'monthly' | 'yearly' | 'quarterly' | 'weekly'
+  /** True when the email signals a one-off charge, not a recurring subscription */
+  is_one_time: boolean
+  /** True when the email contains explicit auto-renewal / recurring-billing signals */
+  is_recurring: boolean
+  /** Next billing / renewal date extracted directly from the email (YYYY-MM-DD), or null */
+  next_billing_date: string | null
   logo_url: string
   email_sender: string
   email_thread_id: string
   website_url: string
+}
+
+// ── One-time purchase signals ────────────────────────────────────────────────
+// If these appear WITHOUT any recurring signal, the charge is not a subscription.
+const ONE_TIME_KEYWORDS = [
+  'one-time purchase',
+  'one time purchase',
+  'one-time payment',
+  'one time payment',
+  'one-time charge',
+  'one time charge',
+  'one-time fee',
+  'one time fee',
+  'single payment',
+  'single charge',
+  'one-off payment',
+  'one off payment',
+  'lifetime license',
+  'lifetime access',
+  'lifetime deal',
+  'lifetime membership',
+  'perpetual license',
+  'not a subscription',
+  'no recurring',
+  'non-recurring',
+  'nonrecurring',
+  'no subscription',
+  'individual purchase',
+  'one-time transaction',
+  'this is not a recurring charge',
+  'this is a one-time',
+]
+
+// ── Explicit recurring / auto-renewal signals ─────────────────────────────────
+const RECURRING_SIGNALS = [
+  'auto-renew',
+  'auto-renewal',
+  'auto renew',
+  'autorenewal',
+  'will renew',
+  'will be charged',
+  'will be billed',
+  'recurring payment',
+  'recurring charge',
+  'recurring billing',
+  'subscription renewed',
+  'subscription renewal',
+  'next billing date',
+  'next billing cycle',
+  'next payment date',
+  'next renewal',
+  'your plan will renew',
+  'your subscription will renew',
+  'billed every',
+  'charged every',
+  'renews every',
+  'automatically renews',
+  'automatically billed',
+  'continuous subscription',
+]
+
+// ── Date extraction helpers ───────────────────────────────────────────────────
+const MONTH_MAP: Record<string, number> = {
+  january: 0, jan: 0,
+  february: 1, feb: 1,
+  march: 2, mar: 2,
+  april: 3, apr: 3,
+  may: 4,
+  june: 5, jun: 5,
+  july: 6, jul: 6,
+  august: 7, aug: 7,
+  september: 8, sep: 8, sept: 8,
+  october: 9, oct: 9,
+  november: 10, nov: 10,
+  december: 11, dec: 11,
+}
+
+function toISODate(d: Date): string {
+  if (isNaN(d.getTime())) return ''
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function parseDateToken(raw: string): string | null {
+  const s = raw.trim().replace(/,/g, '').replace(/\s+/g, ' ')
+
+  // ISO: 2026-03-15
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+    const d = new Date(s + 'T00:00:00')
+    return toISODate(d) || null
+  }
+
+  // "March 15 2026" or "Mar 15 2026"
+  const m1 = s.match(/^([A-Za-z]+)\s+(\d{1,2})\s+(\d{4})$/)
+  if (m1) {
+    const mon = MONTH_MAP[m1[1].toLowerCase()]
+    if (mon !== undefined) return toISODate(new Date(+m1[3], mon, +m1[2])) || null
+  }
+
+  // "15 March 2026"
+  const m2 = s.match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/)
+  if (m2) {
+    const mon = MONTH_MAP[m2[2].toLowerCase()]
+    if (mon !== undefined) return toISODate(new Date(+m2[3], mon, +m2[1])) || null
+  }
+
+  // MM/DD/YYYY  (US format, most common in billing emails)
+  const m3 = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/)
+  if (m3) {
+    const [, mm, dd, yyyy] = m3
+    const d = new Date(+yyyy, +mm - 1, +dd)
+    if (!isNaN(d.getTime()) && +mm <= 12 && +dd <= 31) return toISODate(d) || null
+  }
+
+  return null
+}
+
+/**
+ * Attempt to extract the next billing / renewal date from email text.
+ * Returns a YYYY-MM-DD string only when the date is in the future (or ≤7 days past).
+ */
+function extractNextBillingDate(text: string): string | null {
+  const threshold = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  const dateChunk = '([A-Za-z]+ \\d{1,2},?\\s*\\d{4}|\\d{4}-\\d{2}-\\d{2}|\\d{1,2}[\\/\\-]\\d{1,2}[\\/\\-]\\d{4})'
+
+  const patterns: RegExp[] = [
+    new RegExp(`next\\s+billing\\s+(?:date|on)\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`next\\s+payment\\s+(?:date|on|due)?\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`next\\s+charge\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`renewal\\s+date\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`renew(?:al|s)?\\s+on\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`subscription\\s+(?:will\\s+)?renew(?:s)?\\s+on\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`will\\s+be\\s+(?:charged|billed)\\s+on\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`automatically\\s+(?:charged|billed|renews?)\\s+on\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`billed\\s+again\\s+on\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`due\\s+(?:on|date)\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`expires?\\s+on\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`valid\\s+through\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+    new RegExp(`trial\\s+ends?\\s+on\\s*[:\\-]?\\s*${dateChunk}`, 'i'),
+  ]
+
+  for (const pat of patterns) {
+    const match = text.match(pat)
+    if (match?.[1]) {
+      const parsed = parseDateToken(match[1])
+      if (parsed && new Date(parsed) >= threshold) return parsed
+    }
+  }
+  return null
 }
 
 export function detectSubscriptionFromEmail(
@@ -363,19 +517,28 @@ export function detectSubscriptionFromEmail(
     billing_cycle = 'weekly'
   }
 
+  // Detect one-time vs recurring
+  const combinedText = lowerSubject + ' ' + lowerBody
+  const is_one_time = ONE_TIME_KEYWORDS.some((kw) => combinedText.includes(kw))
+  const is_recurring = RECURRING_SIGNALS.some((kw) => combinedText.includes(kw))
+
+  // Try to extract the next billing date directly from the email
+  const next_billing_date = extractNextBillingDate(subject + ' ' + body)
+
   return {
     name: pattern.name,
     amount,
     currency,
     billing_cycle,
+    is_one_time,
+    is_recurring,
+    next_billing_date,
     logo_url: pattern.logoUrl,
     email_sender: from,
     email_thread_id: threadId,
     website_url: `https://${pattern.sender}`,
   }
 }
-
-// Keywords that indicate a subscription was cancelled
 const CANCELLATION_KEYWORDS = [
   'cancellation confirmed',
   'subscription cancelled',

@@ -135,15 +135,23 @@ export async function POST() {
     for (const [, detected] of serviceDetections) {
       const finalStatus = serviceStatus.get(detected.name) ?? 'active'
 
+      // Skip one-time charges — they are not recurring subscriptions
+      if (detected.is_one_time && !detected.is_recurring) {
+        continue
+      }
+
       // Skip if an active subscription with the same name already exists in DB
       if (finalStatus === 'active' && existingActiveNames.has(detected.name.toLowerCase())) {
         continue
       }
 
-      // Compute next billing date accurately based on cycle
+      // Use the date extracted directly from the email when available;
+      // otherwise compute a best-guess from the detected billing cycle.
       const now = new Date()
       let nextBillingDate: string
-      if (detected.billing_cycle === 'yearly') {
+      if (detected.next_billing_date) {
+        nextBillingDate = detected.next_billing_date
+      } else if (detected.billing_cycle === 'yearly') {
         nextBillingDate = format(addYears(now, 1), 'yyyy-MM-dd')
       } else if (detected.billing_cycle === 'quarterly') {
         nextBillingDate = format(addMonths(now, 3), 'yyyy-MM-dd')

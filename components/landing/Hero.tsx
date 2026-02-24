@@ -305,9 +305,9 @@ export function Hero() {
                     className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed mb-10 text-balance"
                 >
                     Know what you&apos;re paying, and stop wasting money.
-                    paySnap automatically detects all your recurring charges from
-                    Gmail — or you can add them manually. Budget-aware analytics,
-                    renewal alerts, and full control in one place.
+                    paySnap automatically detects all your recurring charges
+                    from Gmail — or you can add them manually. Budget-aware
+                    analytics, renewal alerts, and full control in one place.
                 </motion.p>
 
                 {/* CTAs */}
@@ -364,7 +364,9 @@ export function Hero() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 px-5 py-3 rounded-2xl border border-border bg-surface/60 backdrop-blur-sm text-[11px] text-muted-foreground">
                         <div className="flex items-center gap-1.5 font-medium">
                             <Shield className="w-3.5 h-3.5 text-success shrink-0" />
-                            <span className="text-foreground">We never store your emails</span>
+                            <span className="text-foreground">
+                                We never store your emails
+                            </span>
                         </div>
                         <div className="hidden sm:block h-3 w-px bg-border" />
                         <span>We only extract subscription metadata</span>
