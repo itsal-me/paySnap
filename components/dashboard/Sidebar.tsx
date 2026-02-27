@@ -12,12 +12,14 @@ import {
     ChevronLeft,
     ChevronRight,
     LogOut,
+    Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import type { Profile } from "@/types";
 import { getInitials } from "@/lib/utils";
+import { usePlan } from "@/hooks/usePlan";
 
 const navItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -39,6 +41,7 @@ export function Sidebar({ profile }: SidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
     const supabase = createClient();
+    const { isPro } = usePlan();
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -65,6 +68,11 @@ export function Sidebar({ profile }: SidebarProps) {
                 {!collapsed && (
                     <span className="text-sm font-semibold tracking-tight truncate">
                         ZeroScribe
+                    </span>
+                )}
+                {!collapsed && isPro && (
+                    <span className="ml-auto text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-accent/15 text-accent border border-accent/25">
+                        Pro
                     </span>
                 )}
             </div>
@@ -97,6 +105,26 @@ export function Sidebar({ profile }: SidebarProps) {
                     );
                 })}
             </nav>
+
+            {/* Upgrade prompt for free users */}
+            {!isPro && !collapsed && (
+                <div className="px-2 pb-2">
+                    <Link
+                        href="/upgrade"
+                        className="flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-accent/10 border border-accent/20 hover:bg-accent/15 transition-colors group"
+                    >
+                        <Sparkles className="w-3.5 h-3.5 text-accent shrink-0" />
+                        <div className="min-w-0">
+                            <p className="text-[10px] font-semibold text-accent">
+                                Upgrade to Pro — Free
+                            </p>
+                            <p className="text-[9px] text-muted-foreground truncate">
+                                Gmail scan + insights unlocked
+                            </p>
+                        </div>
+                    </Link>
+                </div>
+            )}
 
             {/* User section */}
             <div className="border-t border-border p-2 space-y-0.5">
@@ -134,10 +162,17 @@ export function Sidebar({ profile }: SidebarProps) {
                             </div>
                         )}
                         {!collapsed && (
-                            <div className="min-w-0">
-                                <p className="text-xs font-medium truncate">
-                                    {profile.full_name || "User"}
-                                </p>
+                            <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-1.5">
+                                    <p className="text-xs font-medium truncate">
+                                        {profile.full_name || "User"}
+                                    </p>
+                                    {isPro && (
+                                        <span className="text-[8px] font-bold uppercase tracking-wider px-1 py-px rounded bg-accent/15 text-accent border border-accent/20 shrink-0">
+                                            Pro
+                                        </span>
+                                    )}
+                                </div>
                                 <p className="text-[10px] text-muted-foreground truncate">
                                     {profile.email}
                                 </p>

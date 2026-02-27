@@ -9,9 +9,11 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useSubscriptions } from "@/hooks/useSubscriptions";
 import { useProfile } from "@/hooks/useProfile";
+import { usePlan } from "@/hooks/usePlan";
 import type { Subscription, SubscriptionStatus } from "@/types";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { PLANS } from "@/lib/plans";
 
 const statusFilters: { label: string; value: SubscriptionStatus | "all" }[] = [
     { label: "All", value: "all" },
@@ -34,6 +36,7 @@ export default function SubscriptionsPage() {
         dismissDetection,
     } = useSubscriptions();
     const { categories } = useProfile();
+    const { canGmailScan, canAddSub } = usePlan();
     const [modalOpen, setModalOpen] = useState(false);
     const [editingSubscription, setEditingSubscription] =
         useState<Subscription | null>(null);
@@ -80,6 +83,10 @@ export default function SubscriptionsPage() {
     };
 
     const handleGmailScan = async () => {
+        if (!canGmailScan) {
+            toast.error("Gmail scanning is a Pro feature — upgrade for free!");
+            return;
+        }
         try {
             setScanning(true);
             const res = await fetch("/api/gmail/scan", { method: "POST" });
@@ -98,6 +105,17 @@ export default function SubscriptionsPage() {
         } finally {
             setScanning(false);
         }
+    };
+
+    const handleAddNew = () => {
+        if (!canAddSub(subscriptions.length)) {
+            toast.error(
+                `Free plan is limited to ${PLANS.free.maxSubscriptions} subscriptions. Upgrade to Pro — it\'s free!`,
+                { duration: 4000 },
+            );
+            return;
+        }
+        setModalOpen(true);
     };
 
     const counts = {
@@ -122,11 +140,13 @@ export default function SubscriptionsPage() {
                             onClick={handleGmailScan}
                             icon={<ScanLine className="w-3.5 h-3.5" />}
                         >
-                            <span className="hidden sm:inline">Scan Gmail</span>
+                            <span className="hidden sm:inline">
+                                {canGmailScan ? "Scan Gmail" : "🔒 Scan Gmail"}
+                            </span>
                         </Button>
                         <Button
                             size="sm"
-                            onClick={() => setModalOpen(true)}
+                            onClick={handleAddNew}
                             icon={<Plus className="w-3.5 h-3.5" />}
                         >
                             <span className="hidden sm:inline">Add</span>

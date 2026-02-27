@@ -25,6 +25,11 @@ export default async function DashboardLayout({
         .eq("id", user.id)
         .single();
 
+    // First-time user: plan not chosen yet — show onboarding plan selection
+    if (!profile?.plan) {
+        redirect("/upgrade?welcome=1");
+    }
+
     return (
         <div className="flex h-screen overflow-hidden bg-background">
             <Sidebar profile={profile as Profile} />

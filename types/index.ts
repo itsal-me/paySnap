@@ -10,6 +10,7 @@ export interface Profile {
   gmail_last_scanned: string | null
   notification_email: boolean
   notification_days_before: number
+  plan: 'free' | 'pro' | null
   created_at: string
   updated_at: string
 }

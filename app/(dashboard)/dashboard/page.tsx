@@ -8,9 +8,12 @@ import { SubscriptionsList } from "@/components/dashboard/SubscriptionsList";
 import { SpendingChart } from "@/components/dashboard/SpendingChart";
 import { InsightsPanel } from "@/components/dashboard/InsightsPanel";
 import { AddSubscriptionModal } from "@/components/dashboard/AddSubscriptionModal";
+import { PlanBanner } from "@/components/dashboard/PlanBanner";
+import { UpgradeGate } from "@/components/ui/UpgradeGate";
 import { Button } from "@/components/ui/Button";
 import { useSubscriptions } from "@/hooks/useSubscriptions";
 import { useProfile } from "@/hooks/useProfile";
+import { usePlan } from "@/hooks/usePlan";
 import type { Subscription } from "@/types";
 import toast from "react-hot-toast";
 
@@ -25,6 +28,7 @@ export default function DashboardPage() {
         reactivateSubscription,
     } = useSubscriptions();
     const { categories } = useProfile();
+    const { isPro, canGmailScan, canAddSub, canInsights } = usePlan();
     const [modalOpen, setModalOpen] = useState(false);
     const [editingSubscription, setEditingSubscription] =
         useState<Subscription | null>(null);
@@ -51,6 +55,10 @@ export default function DashboardPage() {
     };
 
     const handleGmailScan = async () => {
+        if (!canGmailScan) {
+            toast.error("Gmail scanning is a Pro feature — upgrade for free!");
+            return;
+        }
         try {
             setScanning(true);
             const res = await fetch("/api/gmail/scan", { method: "POST" });
@@ -69,6 +77,14 @@ export default function DashboardPage() {
         } finally {
             setScanning(false);
         }
+    };
+
+    const handleAdd = () => {
+        if (!canAddSub(subscriptions.length)) {
+            toast.error("Free plan limit reached (5 subs). Upgrade for free!");
+            return;
+        }
+        setModalOpen(true);
     };
 
     const upcomingSubscriptions = subscriptions
@@ -93,11 +109,13 @@ export default function DashboardPage() {
                             onClick={handleGmailScan}
                             icon={<ScanLine className="w-3.5 h-3.5" />}
                         >
-                            <span className="hidden sm:inline">Scan Gmail</span>
+                            <span className="hidden sm:inline">
+                                {canGmailScan ? "Scan Gmail" : "🔒 Scan Gmail"}
+                            </span>
                         </Button>
                         <Button
                             size="sm"
-                            onClick={() => setModalOpen(true)}
+                            onClick={handleAdd}
                             icon={<Plus className="w-3.5 h-3.5" />}
                         >
                             <span className="hidden sm:inline">Add</span>
@@ -106,14 +124,26 @@ export default function DashboardPage() {
                 }
             />
 
+            {/* Free-tier upgrade offer banner */}
+            {!isPro && <PlanBanner />}
+
             {/* Scrollable content */}
             <div className="flex-1 overflow-y-auto">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
                     {/* Stats */}
                     <StatsGrid subscriptions={subscriptions} />
 
-                    {/* Smart Insights */}
-                    <InsightsPanel subscriptions={subscriptions} />
+                    {/* Smart Insights — Pro only */}
+                    {canInsights ? (
+                        <InsightsPanel subscriptions={subscriptions} />
+                    ) : (
+                        <UpgradeGate
+                            feature="Smart Insights"
+                            description="Get AI-powered spending alerts, trial warnings, and savings tips."
+                        >
+                            <InsightsPanel subscriptions={[]} />
+                        </UpgradeGate>
+                    )}
 
                     {/* Charts */}
                     <SpendingChart subscriptions={subscriptions} />

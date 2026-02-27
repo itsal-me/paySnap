@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Zap } from "lucide-react";
+import { Check, Zap, Flame, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -10,10 +10,9 @@ const plans = [
         name: "Free",
         price: "$0",
         period: "forever",
-        description:
-            "Perfect for getting started and tracking your core subscriptions.",
+        description: "Good starting point for getting a feel of the app.",
         features: [
-            "Up to 10 subscriptions",
+            "Up to 5 subscriptions",
             "Manual entry",
             "Renewal reminders",
             "Basic spending overview",
@@ -23,30 +22,33 @@ const plans = [
             "Gmail auto-detection",
             "Unlimited subscriptions",
             "Advanced analytics",
+            "Smart insights",
         ],
-        cta: "Get started free",
+        cta: "Start for free",
         ctaHref: "/login",
         highlighted: false,
+        badge: null,
     },
     {
         name: "Pro",
         price: "$4",
         period: "per month",
-        description:
-            "For power users who want full automation and deep insights.",
+        description: "Full automation and deep insights. Yours free right now.",
         features: [
             "Unlimited subscriptions",
             "Gmail auto-detection",
             "Advanced analytics",
+            "Smart spending insights",
             "Custom categories",
             "Early renewal alerts",
             "Export to CSV",
             "Priority support",
         ],
         excluded: [],
-        cta: "Start Pro free for 14 days",
+        cta: "Claim Free Pro Access →",
         ctaHref: "/login?plan=pro",
         highlighted: true,
+        badge: "🔥 Free during launch",
     },
 ];
 
@@ -57,6 +59,29 @@ export function Pricing() {
             className="py-16 sm:py-28 px-4 border-t border-border"
         >
             <div className="max-w-4xl mx-auto">
+                {/* Launch offer urgent banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4 }}
+                    className="mb-10 sm:mb-12 mx-auto max-w-2xl"
+                >
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-accent/10 border border-accent/30 text-center justify-center flex-wrap">
+                        <Flame className="w-4 h-4 text-accent shrink-0" />
+                        <p className="text-sm font-semibold text-accent">
+                            Limited launch offer — Pro is{" "}
+                            <span className="underline underline-offset-2">
+                                completely free
+                            </span>{" "}
+                            for early users. No credit card. No catch.
+                        </p>
+                        <span className="text-xs text-muted-foreground">
+                            Offer ends when we say so.
+                        </span>
+                    </div>
+                </motion.div>
+
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -72,8 +97,11 @@ export function Pricing() {
                         Simple, honest pricing
                     </h2>
                     <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-                        No hidden fees, no usage caps that sneak up on you.
-                        Start free, upgrade when you need more.
+                        Start free or jump straight to Pro —{" "}
+                        <strong className="text-foreground">
+                            free for early users
+                        </strong>
+                        . No billing info needed.
                     </p>
                 </motion.div>
 
@@ -93,11 +121,11 @@ export function Pricing() {
                                     : "border-border bg-surface",
                             )}
                         >
-                            {plan.highlighted && (
+                            {plan.badge && (
                                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-semibold">
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-semibold whitespace-nowrap">
                                         <Zap className="w-3 h-3 fill-current" />
-                                        Most popular
+                                        {plan.badge}
                                     </span>
                                 </div>
                             )}
@@ -107,12 +135,25 @@ export function Pricing() {
                                     {plan.name}
                                 </p>
                                 <div className="flex items-end gap-1.5 mb-2">
-                                    <span className="text-4xl font-extrabold tracking-tight">
-                                        {plan.price}
-                                    </span>
-                                    <span className="text-sm text-muted-foreground pb-1.5">
-                                        {plan.period}
-                                    </span>
+                                    {plan.highlighted ? (
+                                        <>
+                                            <span className="text-4xl font-extrabold tracking-tight text-success">
+                                                $0
+                                            </span>
+                                            <span className="text-sm text-muted-foreground line-through pb-1.5">
+                                                {plan.price}/mo
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span className="text-4xl font-extrabold tracking-tight">
+                                                {plan.price}
+                                            </span>
+                                            <span className="text-sm text-muted-foreground pb-1.5">
+                                                {plan.period}
+                                            </span>
+                                        </>
+                                    )}
                                 </div>
                                 <p className="text-xs text-muted-foreground leading-relaxed">
                                     {plan.description}
@@ -136,7 +177,7 @@ export function Pricing() {
                                         key={feature}
                                         className="flex items-start gap-2.5 opacity-35"
                                     >
-                                        <div className="w-3.5 h-px bg-muted-foreground mt-2 shrink-0" />
+                                        <Lock className="w-3 h-3 text-muted-foreground mt-0.5 shrink-0" />
                                         <span className="text-xs text-muted-foreground">
                                             {feature}
                                         </span>
@@ -167,7 +208,8 @@ export function Pricing() {
                     transition={{ delay: 0.4 }}
                     className="text-center text-xs text-muted-foreground mt-8"
                 >
-                    14-day free trial, no credit card required. Cancel anytime.
+                    No credit card required. Pro is free for early access users
+                    — pricing may apply in the future.
                 </motion.p>
             </div>
         </section>
