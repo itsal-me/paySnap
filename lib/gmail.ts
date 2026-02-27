@@ -17,7 +17,7 @@ export function getGmailAuthUrl(userId: string, redirectUri: string): string {
     response_type: 'code',
     scope: GMAIL_SCOPES,
     access_type: 'offline',
-    prompt: 'consent',
+    prompt: 'select_account consent',
     state: userId,
   })
   return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
