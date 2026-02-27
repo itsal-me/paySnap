@@ -19,7 +19,7 @@ export function Footer() {
                                 <Zap className="w-3.5 h-3.5 text-accent-foreground fill-current" />
                             </div>
                             <span className="text-sm font-semibold">
-                                paySnap
+                                ZeroScribe
                             </span>
                         </Link>
                         <p className="text-xs text-muted-foreground leading-relaxed max-w-[180px]">
@@ -52,7 +52,7 @@ export function Footer() {
 
                 <div className="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-xs text-muted-foreground">
-                        © {new Date().getFullYear()} paySnap. All rights
+                        © {new Date().getFullYear()} ZeroScribe. All rights
                         reserved.
                     </p>
                     <div className="flex items-center gap-4">

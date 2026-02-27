@@ -64,7 +64,7 @@ export function Sidebar({ profile }: SidebarProps) {
                 </div>
                 {!collapsed && (
                     <span className="text-sm font-semibold tracking-tight truncate">
-                        paySnap
+                        ZeroScribe
                     </span>
                 )}
             </div>

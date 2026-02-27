@@ -13,11 +13,11 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
     title: {
-        default: "paySnap — Track every subscription",
-        template: "%s | paySnap",
+        default: "ZeroScribe — Track every subscription",
+        template: "%s | ZeroScribe",
     },
     description:
-        "paySnap automatically detects and tracks all your subscriptions through Gmail and manual entry. Know exactly what you're paying, when renewals hit, and never miss a charge again.",
+        "ZeroScribe automatically detects and tracks all your subscriptions through Gmail and manual entry. Know exactly what you're paying, when renewals hit, and never miss a charge again.",
     keywords: [
         "subscription tracker",
         "subscription management",
@@ -25,22 +25,22 @@ export const metadata: Metadata = {
         "expense tracking",
         "gmail integration",
     ],
-    authors: [{ name: "paySnap" }],
-    creator: "paySnap",
+    authors: [{ name: "ZeroScribe" }],
+    creator: "ZeroScribe",
     openGraph: {
         type: "website",
         locale: "en_US",
-        url: "https://paysnap.app",
-        title: "paySnap — Track every subscription",
+        url: "https://zeroscribe.app",
+        title: "ZeroScribe — Track every subscription",
         description:
             "Automatically detect and manage all your subscriptions in one place.",
-        siteName: "paySnap",
+        siteName: "ZeroScribe",
     },
     twitter: {
         card: "summary_large_image",
-        title: "paySnap",
+        title: "ZeroScribe",
         description: "Track every subscription automatically.",
-        creator: "@paysnap",
+        creator: "@zeroscribe",
     },
     robots: { index: true, follow: true },
 };

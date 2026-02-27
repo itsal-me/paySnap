@@ -1,5 +1,5 @@
 -- ============================================================
--- paySnap - Initial Database Schema
+-- ZeroScribe - Initial Database Schema
 -- Run this in Supabase SQL Editor or via CLI
 -- ============================================================
 

@@ -64,7 +64,7 @@ function DashboardPreview() {
                     <div className="w-2.5 h-2.5 rounded-full bg-warning/60" />
                     <div className="w-2.5 h-2.5 rounded-full bg-success/60" />
                     <div className="ml-3 flex-1 bg-muted rounded-md px-3 py-1 text-xs text-muted-foreground truncate">
-                        app.paysnap.com/dashboard
+                        app.zeroscribe.com/dashboard
                     </div>
                 </div>
 

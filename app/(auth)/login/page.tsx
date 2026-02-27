@@ -62,7 +62,7 @@ function LoginForm() {
                     <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center">
                         <Zap className="w-4 h-4 text-accent-foreground fill-current" />
                     </div>
-                    <span className="text-sm font-semibold">paySnap</span>
+                    <span className="text-sm font-semibold">ZeroScribe</span>
                 </Link>
             </header>
 

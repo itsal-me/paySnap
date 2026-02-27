@@ -39,7 +39,7 @@ export function Navbar() {
                         <Zap className="w-4 h-4 text-accent-foreground fill-current" />
                     </div>
                     <span className="text-sm font-semibold tracking-tight">
-                        paySnap
+                        ZeroScribe
                     </span>
                 </Link>
 
