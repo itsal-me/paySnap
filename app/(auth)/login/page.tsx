@@ -173,7 +173,21 @@ function LoginForm() {
                         <p className="text-xs text-muted-foreground/70 leading-relaxed">
                             We use Google OAuth for secure, passwordless
                             sign-in. Gmail access is read-only and can be
-                            revoked anytime.
+                            revoked anytime. By continuing, you agree to our{" "}
+                            <Link
+                                href="/terms"
+                                className="underline underline-offset-2 hover:text-foreground transition-colors"
+                            >
+                                Terms
+                            </Link>{" "}
+                            and{" "}
+                            <Link
+                                href="/privacy"
+                                className="underline underline-offset-2 hover:text-foreground transition-colors"
+                            >
+                                Privacy Policy
+                            </Link>
+                            .
                         </p>
                     </div>
 
