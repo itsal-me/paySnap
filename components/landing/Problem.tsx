@@ -29,7 +29,7 @@ export function Problem() {
                     </p>
                     <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-balance">
                         Most people underestimate
-                        <br className="hidden sm:block" />
+                        <br />
                         their subscription spending
                     </h2>
                 </motion.div>

@@ -157,9 +157,7 @@ export default function PrivacyPage() {
                                 Authenticate you securely through Google OAuth
                             </li>
                             <li>Respond to support requests</li>
-                            <li>
-                                Ensure compliance with our Terms of Service
-                            </li>
+                            <li>Ensure compliance with our Terms of Service</li>
                         </ul>
                         <p className="mt-3 font-medium text-foreground">
                             We do not use your Gmail data for advertising,
@@ -197,8 +195,8 @@ export default function PrivacyPage() {
                                 AI/ML models
                             </li>
                             <li>
-                                Gmail access is optional — you can use ZeroScribe
-                                without it using manual entry
+                                Gmail access is optional — you can use
+                                ZeroScribe without it using manual entry
                             </li>
                         </ul>
                     </Section>
@@ -251,8 +249,8 @@ export default function PrivacyPage() {
                         <p>
                             These providers are bound by their own privacy
                             policies and data processing agreements. We do not
-                            share your personal information with any other
-                            third parties.
+                            share your personal information with any other third
+                            parties.
                         </p>
                     </Section>
 

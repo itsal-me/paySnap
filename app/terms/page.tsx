@@ -61,11 +61,10 @@ export default function TermsPage() {
                     </div>
 
                     <p className="text-sm text-muted-foreground mb-10 leading-relaxed">
-                        Please read these Terms of Service
-                        (&ldquo;Terms&rdquo;) carefully before using
-                        ZeroScribe. By accessing or using ZeroScribe, you agree
-                        to be bound by these Terms. If you do not agree, do not
-                        use the service.
+                        Please read these Terms of Service (&ldquo;Terms&rdquo;)
+                        carefully before using ZeroScribe. By accessing or using
+                        ZeroScribe, you agree to be bound by these Terms. If you
+                        do not agree, do not use the service.
                     </p>
 
                     <Section title="1. Acceptance of Terms">
@@ -88,8 +87,8 @@ export default function TermsPage() {
                     <Section title="2. Description of Service">
                         <p>
                             ZeroScribe is a subscription management tool that
-                            helps you track recurring payments and subscriptions.
-                            The Service offers:
+                            helps you track recurring payments and
+                            subscriptions. The Service offers:
                         </p>
                         <ul className="list-disc list-inside space-y-1 ml-2">
                             <li>Manual subscription entry and management</li>
@@ -284,8 +283,8 @@ export default function TermsPage() {
                             ZeroScribe is a tracking tool only. Nothing in the
                             Service constitutes financial, legal, or accounting
                             advice. The spending data shown is based on
-                            information you provide or that is auto-detected, and
-                            may not be accurate or complete.
+                            information you provide or that is auto-detected,
+                            and may not be accurate or complete.
                         </p>
                         <p>
                             <strong className="text-foreground">
@@ -345,10 +344,10 @@ export default function TermsPage() {
                     <Section title="12. Changes to Terms">
                         <p>
                             We may update these Terms from time to time. We will
-                            notify you of material changes by posting a notice in
-                            the app or emailing you. Continued use of the Service
-                            after changes take effect constitutes acceptance of
-                            the revised Terms.
+                            notify you of material changes by posting a notice
+                            in the app or emailing you. Continued use of the
+                            Service after changes take effect constitutes
+                            acceptance of the revised Terms.
                         </p>
                     </Section>
 
@@ -363,9 +362,7 @@ export default function TermsPage() {
                     </Section>
 
                     <Section title="14. Contact Us">
-                        <p>
-                            For questions about these Terms, contact us at:
-                        </p>
+                        <p>For questions about these Terms, contact us at:</p>
                         <ul className="list-disc list-inside space-y-1 ml-2">
                             <li>
                                 Email:{" "}
