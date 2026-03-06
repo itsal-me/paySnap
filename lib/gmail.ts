@@ -8,6 +8,8 @@ import { computeConfidenceScore } from './confidence'
 export const GMAIL_SCOPES = [
   'https://www.googleapis.com/auth/gmail.readonly',
   'https://www.googleapis.com/auth/userinfo.email',
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'openid',
 ].join(' ')
 
 export function getGmailAuthUrl(userId: string, redirectUri: string): string {

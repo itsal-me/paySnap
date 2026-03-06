@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { Button } from "@/components/ui/Button";
 import { useProfile } from "@/hooks/useProfile";
+import { usePlan } from "@/hooks/usePlan";
 import {
     Mail,
     Unlink,
@@ -13,6 +15,8 @@ import {
     Bell,
     User,
     Shield,
+    Lock,
+    Sparkles,
 } from "lucide-react";
 import { formatRelativeDate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -44,6 +48,7 @@ function SettingSection({
 
 export default function SettingsPage() {
     const { profile, loading, updateProfile, disconnectGmail } = useProfile();
+    const { canGmailScan, isPro } = usePlan();
     const [scanning, setScanning] = useState(false);
     const [notifDays, setNotifDays] = useState(3);
     const [notifEmail, setNotifEmail] = useState(true);
@@ -180,18 +185,32 @@ export default function SettingsPage() {
                                     </div>
                                 </div>
 
-                                <div className="flex gap-2">
-                                    <Button
-                                        variant="secondary"
-                                        size="sm"
-                                        loading={scanning}
-                                        onClick={handleScanGmail}
-                                        icon={
-                                            <ScanLine className="w-3.5 h-3.5" />
-                                        }
-                                    >
-                                        Scan now
-                                    </Button>
+                                <div className="flex gap-2 flex-wrap">
+                                    {canGmailScan ? (
+                                        <Button
+                                            variant="secondary"
+                                            size="sm"
+                                            loading={scanning}
+                                            onClick={handleScanGmail}
+                                            icon={
+                                                <ScanLine className="w-3.5 h-3.5" />
+                                            }
+                                        >
+                                            Scan now
+                                        </Button>
+                                    ) : (
+                                        <div className="flex flex-col gap-1.5">
+                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted border border-border cursor-not-allowed opacity-60 text-xs font-medium">
+                                                <Lock className="w-3.5 h-3.5 shrink-0" />
+                                                Scan now
+                                                <span className="ml-0.5 px-1.5 py-0.5 rounded bg-accent/10 text-accent text-[10px] font-semibold">Pro</span>
+                                            </div>
+                                            <Link href="/upgrade" className="flex items-center gap-1 text-[11px] text-accent hover:underline">
+                                                <Sparkles className="w-3 h-3" />
+                                                Upgrade to unlock scanning
+                                            </Link>
+                                        </div>
+                                    )}
                                     <Button
                                         variant="danger"
                                         size="sm"
