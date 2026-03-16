@@ -31,6 +31,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 const MAX_SCAN_MESSAGES = 80
 const MESSAGE_FETCH_CONCURRENCY = 8
+const GMAIL_RECONNECT_MESSAGE = 'Reconnect your gmail account.'
 
 export async function POST() {
   const supabase = await createClient()
@@ -76,9 +77,9 @@ export async function POST() {
     } catch {
       await supabase
         .from('gmail_scan_logs')
-        .update({ status: 'failed', error_message: 'Token refresh failed', completed_at: new Date().toISOString() })
+        .update({ status: 'failed', error_message: GMAIL_RECONNECT_MESSAGE, completed_at: new Date().toISOString() })
         .eq('id', scanLog?.id)
-      return NextResponse.json({ error: 'Token refresh failed' }, { status: 400 })
+      return NextResponse.json({ error: GMAIL_RECONNECT_MESSAGE }, { status: 400 })
     }
   }
 

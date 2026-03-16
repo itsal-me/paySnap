@@ -82,6 +82,7 @@ const MONTH_MAP: Record<string, number> = {
 const MAX_SCAN_MESSAGES = 80
 const MESSAGE_FETCH_CONCURRENCY = 8
 const FULL_SCAN_LOOKBACK_DAYS = 180
+const GMAIL_RECONNECT_MESSAGE = 'Reconnect your gmail account.'
 
 function toISODate(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -445,7 +446,7 @@ Deno.serve(async (req) => {
         } catch {
           await supabase.from('gmail_scan_logs').update({
             status: 'failed',
-            error_message: 'Token refresh failed',
+            error_message: GMAIL_RECONNECT_MESSAGE,
             completed_at: new Date().toISOString(),
           }).eq('id', log?.id)
           continue
